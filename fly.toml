@@ -1,20 +1,29 @@
-# Конфиг для Fly.io. Создайте приложение: fly launch --no-deploy --copy-config
-# Затем установите секреты:
-#   fly secrets set BOT_TOKEN=... GEMINI_API_KEY=... PAYMENT_PROVIDER_TOKEN=...
-# И задеплойте: fly deploy
+# fly.toml app configuration file generated for food-bot-wandering-pond-306 on 2026-05-17T08:47:22Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "food-bot"  # замените на своё уникальное имя
-primary_region = "fra"  # Франкфурт; для Казахстана/России подойдёт
+app = 'food-bot-wandering-pond-306'
+primary_region = 'fra'
 
 [build]
+  builder = 'paketobuildpacks/builder:base'
 
-[mounts]
-  source = "food_bot_data"
-  destination = "/data"
+[env]
+  PORT = '8080'
+
+[[mounts]]
+  source = 'food_bot_data'
+  destination = '/data'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
 
 [[vm]]
-  size = "shared-cpu-1x"
-  memory = "256mb"
-
-# Бот не принимает HTTP — секция [http_service] не нужна.
-# Health check через консольный лог проверяется самим Fly.
+  size = 'shared-cpu-1x'
+  memory = '256mb'

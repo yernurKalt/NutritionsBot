@@ -1,0 +1,20 @@
+# Конфиг для Fly.io. Создайте приложение: fly launch --no-deploy --copy-config
+# Затем установите секреты:
+#   fly secrets set BOT_TOKEN=... GEMINI_API_KEY=... PAYMENT_PROVIDER_TOKEN=...
+# И задеплойте: fly deploy
+
+app = "food-bot"  # замените на своё уникальное имя
+primary_region = "fra"  # Франкфурт; для Казахстана/России подойдёт
+
+[build]
+
+[mounts]
+  source = "food_bot_data"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+# Бот не принимает HTTP — секция [http_service] не нужна.
+# Health check через консольный лог проверяется самим Fly.

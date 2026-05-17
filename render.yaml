@@ -1,0 +1,19 @@
+services:
+  - type: worker
+    name: food-bot
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PAYMENT_PROVIDER_TOKEN
+        sync: false
+      - key: DB_PATH
+        value: /data/food_bot.db
+    disk:
+      name: food-bot-data
+      mountPath: /data
+      sizeGB: 1
